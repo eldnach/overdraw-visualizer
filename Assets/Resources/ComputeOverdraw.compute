@@ -1,0 +1,33 @@
+﻿#pragma kernel Overdraw
+
+Texture2D _overdrawMap;
+SamplerState linearClampSampler;
+
+RWTexture2D<float4> _colorMap;
+RWStructuredBuffer<int> _counter;
+
+int _totalX;
+int _totalY;
+int _rangeMin;
+int _rangeMax;
+
+[numthreads(8,8,1)]
+void Overdraw (uint3 id : SV_DispatchThreadID)
+{
+    float posx = float(id.x);
+    float posy = float(id.y);
+    float2 uv = float2( float(id.x) / float(_totalX), float(id.y) / float(_totalY) );
+
+    float4 overdrawSample = _overdrawMap.SampleLevel(linearClampSampler, uv, 0);
+    int drawcount = (int)(overdrawSample.x * 1024.0);
+
+    _counter[id.x + id.y * _totalY] = 0;
+	_counter[id.x + id.y * _totalY] = drawcount;
+    
+    _colorMap[id.xy] = float4(0.0, 0.0, 0.0, 0.0);
+	if (drawcount == 0) {_colorMap[id.xy] = float4(0.0, 0.0, 0.0, 1.0);}
+    if (drawcount > 0 && drawcount <= _rangeMin ) {_colorMap[id.xy] = float4(0.0, 1.0, 0.0, 1.0);}
+	if (drawcount > _rangeMin && drawcount <= _rangeMax) {_colorMap[id.xy] = float4(1.0, 0.7, 0.0, 1.0);}
+	if (drawcount > _rangeMax ) {_colorMap[id.xy] = float4(1.0, 0.0, 0.0, 1.0);}
+    
+}
