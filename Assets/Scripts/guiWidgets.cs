@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class guiWidgets 
+public class GuiWidgets 
 {
         public static float fSlider(Rect rect, float val, float minVal, float maxVal, string text, string style = "default")
         {

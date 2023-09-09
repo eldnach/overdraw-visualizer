@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class overdrawViz : MonoBehaviour
+public class OverdrawViz : MonoBehaviour
 {
     public Shader shader;
 
@@ -147,10 +147,10 @@ public class overdrawViz : MonoBehaviour
             GUI.Label(rect, "Overdraw Visualizer");
 
             rect = new Rect(xmargin, ymargin + height * 0.0f, width, height * .5f);
-            minRange = guiWidgets.iSlider(rect, minRange, 0, 10, "Minimum overdraw range (" + minRange.ToString() + ")");
+            minRange = GuiWidgets.iSlider(rect, minRange, 0, 10, "Minimum overdraw range (" + minRange.ToString() + ")");
 
             rect = new Rect(xmargin, ymargin + height * 1.0f, width, height * .5f);
-            maxRange = guiWidgets.iSlider(rect, maxRange, 0, 10, "Maximum overdraw range (" + maxRange.ToString() + ")");
+            maxRange = GuiWidgets.iSlider(rect, maxRange, 0, 10, "Maximum overdraw range (" + maxRange.ToString() + ")");
 
             rect = new Rect(xmargin, ymargin + height * 2.25f, width, height * .5f);
             if (GUI.Button(rect, "Download overdraw counters"))
